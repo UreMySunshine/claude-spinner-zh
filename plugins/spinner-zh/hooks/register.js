@@ -6,7 +6,7 @@
 // - mods 没有原生的多选控件，分类开关用 Button 逐项切换实现；
 // - mods API 不暴露终端主题，背景深浅由用户在面板里指定。
 import { CATEGORIES, ALL_PHRASES } from './phrases.js'
-import { colorAt, phraseAt, segmentsOf, truncateToWidth, ROTATION_MS, TICK_MS } from './gradient.js'
+import { colorAt, pickPhrase, segmentsOf, truncateToWidth, ROTATION_MS, TICK_MS } from './gradient.js'
 
 const PLACEHOLDER_WORD = '\u200b'
 const PANE_ID = 'spinner-zh-config'
@@ -20,6 +20,13 @@ let isWorking = false
 let turnStartedAt = 0
 let lightBackground = false
 let lastPhrase = ''
+// 当前文案所在的轮播周期序号；-1 表示下一帧需要重新抽取。
+let rotationSlot = -1
+
+// 每个已勾选分类一个文案列表；一个都没勾选时取全部分类。
+function selectedLists() {
+  return CATEGORIES.filter((entry) => selected.size === 0 || selected.has(entry.id)).map((entry) => entry.phrases)
+}
 
 function selectedPhrases() {
   if (selected.size === 0 || selected.size === CATEGORIES.length) return ALL_PHRASES
@@ -97,6 +104,7 @@ export function register(on) {
     if (e.agentId === undefined) {
       isWorking = true
       turnStartedAt = await $.clock.now()
+      rotationSlot = -1
       if (enabled) startTimer($)
     }
     return next(e)
@@ -122,8 +130,12 @@ export function register(on) {
     const engine = await next({ ...e, props: { ...e.props, word: PLACEHOLDER_WORD, suffix: '' } })
     const now = await $.clock.now()
     const elapsed = isWorking ? Math.max(0, now - turnStartedAt) : 0
-    const phrase = phraseAt(selectedPhrases(), elapsed)
-    lastPhrase = phrase
+    const slot = Math.floor(elapsed / ROTATION_MS)
+    if (slot !== rotationSlot) {
+      rotationSlot = slot
+      lastPhrase = pickPhrase(selectedLists(), lastPhrase)
+    }
+    const phrase = lastPhrase
 
     const viewportColumns = e.viewport && Number.isFinite(e.viewport.columns) ? e.viewport.columns : 0
     const budget = viewportColumns > 0 ? Math.max(8, viewportColumns - 4) : 60

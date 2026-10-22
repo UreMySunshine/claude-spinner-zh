@@ -86,11 +86,16 @@ export function colorAt(index, length, now, isLightBackground = false) {
   return hueToHex(phase + spread, palette.saturation, palette.lightness)
 }
 
-// 按已等待时长取第几条文案；elapsed 为负或非有限值时退回第一条。
-export function phraseAt(list, elapsed) {
-  if (!Array.isArray(list) || list.length === 0) return ''
-  const safe = Number.isFinite(elapsed) && elapsed > 0 ? elapsed : 0
-  return list[Math.floor(safe / ROTATION_MS) % list.length]
+// 先等概率选一个分类，再从中随机取一句，条数多的分类不会占满轮播；抽到与上一句相同时重抽一次。
+export function pickPhrase(lists, previous, random = Math.random) {
+  const pool = Array.isArray(lists) ? lists.filter((list) => Array.isArray(list) && list.length > 0) : []
+  if (pool.length === 0) return ''
+  const draw = () => {
+    const list = pool[Math.floor(random() * pool.length)]
+    return list[Math.floor(random() * list.length)]
+  }
+  const first = draw()
+  return first === previous ? draw() : first
 }
 
 // 一个字占两列（中日韩文字与全角标点），ASCII 占一列。

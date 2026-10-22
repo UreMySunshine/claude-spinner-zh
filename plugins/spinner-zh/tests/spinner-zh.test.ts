@@ -1,5 +1,5 @@
 import { expect, test, mock } from 'claude-code/testing'
-import { colorAt, hueToHex, phraseAt, segmentsOf, truncateToWidth, displayWidth, contrastRatio, MAX_SEGMENTS, ROTATION_MS, TICK_MS } from '../hooks/gradient.js'
+import { colorAt, hueToHex, pickPhrase, segmentsOf, truncateToWidth, displayWidth, contrastRatio, MAX_SEGMENTS, ROTATION_MS, TICK_MS } from '../hooks/gradient.js'
 import { CATEGORIES, ALL_PHRASES } from '../hooks/phrases.js'
 
 const SPINNER = {
@@ -75,14 +75,39 @@ async function boot($, on, initial = {}) {
   return { clock, saved, registered }
 }
 
-test('文案每 4 秒切换并循环', async () => {
-  const list = ['一', '二', '三']
-  expect(phraseAt(list, 0)).toBe('一')
-  expect(phraseAt(list, ROTATION_MS - 1)).toBe('一')
-  expect(phraseAt(list, ROTATION_MS)).toBe('二')
-  expect(phraseAt(list, ROTATION_MS * 3)).toBe('一')
-  expect(phraseAt([], 100)).toBe('')
-  expect(phraseAt(undefined, 100)).toBe('')
+test('先等概率选分类再选句，与上一句相同时重抽', async () => {
+  const lists = [['反代'], ['一', '二', '三']]
+  const sequence = (values) => () => values.shift()
+  expect(pickPhrase(lists, '', sequence([0.9, 0.5]))).toBe('二')
+  expect(pickPhrase(lists, '反代', sequence([0, 0, 0.9, 0]))).toBe('一')
+  expect(pickPhrase([[], []], '')).toBe('')
+  expect(pickPhrase(undefined, '')).toBe('')
+})
+
+test('多次抽取覆盖全部分类', async () => {
+  const hit = new Set()
+  let previous = ''
+  for (let round = 0; round < 500; round += 1) {
+    previous = pickPhrase(CATEGORIES.map((entry) => entry.phrases), previous)
+    hit.add(CATEGORIES.find((entry) => entry.phrases.includes(previous)).id)
+  }
+  expect(hit.size).toBe(CATEGORIES.length)
+})
+
+test('同一轮播周期内文案不变，跨周期重新抽取', async ($, on) => {
+  const { clock } = await boot($, on, {})
+  const phraseNow = async () => {
+    const ui = await $.ui.mount({ ...SPINNER, surface: 'terminal' })
+    const text = await ui.find({ type: 'Text', text: /…$/ })
+    await ui.unmount()
+    return text && text.text
+  }
+  const first = await phraseNow()
+  expect(first.length).toBeGreaterThan(1)
+  await clock.advance(ROTATION_MS - TICK_MS)
+  expect(await phraseNow()).toBe(first)
+  await clock.advance(TICK_MS)
+  expect(await phraseNow()).not.toBe(first)
 })
 
 test('色相随时间前移，同一位置颜色改变', async () => {
