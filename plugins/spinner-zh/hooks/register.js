@@ -133,7 +133,10 @@ export function register(on) {
     const spans = segments.map((segment, index) =>
       Text({ color: colorAt(index, segments.length, now, lightBackground), children: [segment.text] }),
     )
-    return Box({ flexDirection: 'row', children: [...spans, Text({ children: [' '] }), engine] })
+    // 各段作为同一个 Text 的行内子元素整体测宽；拆成 row 的独立子节点时，中文会在行宽不足时被逐字挤到下一行。
+    // 引擎的 spinner 上方自带一行空白，marginTop 让文案与其内容行对齐。
+    const phraseText = Box({ flexShrink: 0, marginTop: 1, children: [Text({ wrap: 'truncate-end', children: spans })] })
+    return Box({ flexDirection: 'row', children: [phraseText, Text({ children: [' '] }), engine] })
   })
 
   on('ui.render', { component: 'Pane' }, async ($, e, next) => {
