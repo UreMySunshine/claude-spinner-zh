@@ -21,7 +21,7 @@
 需要 Claude Code v2.1.287 或更高版本（mods 的最低版本要求）。
 
 ```bash
-claude plugin marketplace add UreMySunshine/spinner-zh
+claude plugin marketplace add UreMySunshine/claude-spinner-zh
 claude plugin install spinner-zh-mods@spinner-zh-marketplace
 ```
 

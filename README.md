@@ -12,7 +12,7 @@
 ## 安装
 
 ```bash
-claude plugin marketplace add UreMySunshine/spinner-zh
+claude plugin marketplace add UreMySunshine/claude-spinner-zh
 
 # 彩色轮播版（推荐）
 claude plugin install spinner-zh-mods@spinner-zh-marketplace
@@ -77,7 +77,7 @@ claude plugin install spinner-zh@spinner-zh-marketplace
 从 GitHub 安装（仓库根目录即 marketplace 根目录）：
 
 ```bash
-claude plugin marketplace add UreMySunshine/spinner-zh
+claude plugin marketplace add UreMySunshine/claude-spinner-zh
 claude plugin install spinner-zh@spinner-zh-marketplace
 ```
 
