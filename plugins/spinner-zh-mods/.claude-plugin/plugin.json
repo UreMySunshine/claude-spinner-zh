@@ -1,10 +1,16 @@
 {
   "name": "spinner-zh-mods",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "把 Claude Code 等待中的 spinner 换成彩色流动的中文轮播文案：逐字符着色，按固定间隔换句，保留原有的等待动画。",
   "author": {
     "name": "Kira"
   },
   "license": "MIT",
-  "keywords": ["spinner", "mods", "chinese", "animation", "gradient"]
+  "keywords": [
+    "spinner",
+    "mods",
+    "chinese",
+    "animation",
+    "gradient"
+  ]
 }
