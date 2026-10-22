@@ -4,7 +4,7 @@
 
 | 插件 | 机制 | 轮播 | 彩色流动 |
 | --- | --- | --- | --- |
-| [`spinner-zh-mods`](plugins/spinner-zh-mods/README.md) | mods，在渲染时重绘 spinner | 支持，同一轮等待中每 4 秒换一句 | 支持，按段着色并随时间流动 |
+| [`spinner-zh-mods`](plugins/spinner-zh-mods/README.md) | mods，在渲染时重绘 spinner | 支持，同一轮等待中每 4 秒换一句 | 支持，按段着色并随时间流动，明暗两套配色 |
 | `spinner-zh` | 原生 `spinnerVerbs` 设置项 | 不支持单轮内切换 | 不支持 |
 
 两者都不修改二进制、不注入终端、不启动常驻进程、不联网、不调用模型。
