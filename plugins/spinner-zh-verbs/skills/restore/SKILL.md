@@ -2,14 +2,14 @@
 name: restore
 description: 停用中文等待文案，只把 spinnerVerbs 恢复为首次启用前保存的原值，保留 settings.json 其他字段与用户后续修改的备份文件。
 argument-hint: "[--force]"
-allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/spinner-zh.mjs *)
+allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/spinner-zh-verbs.mjs *)
 disable-model-invocation: true
 ---
 
 运行下面的命令恢复原配置：
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/scripts/spinner-zh.mjs restore $ARGUMENTS
+${CLAUDE_PLUGIN_ROOT}/scripts/spinner-zh-verbs.mjs restore $ARGUMENTS
 ```
 
 执行规则：

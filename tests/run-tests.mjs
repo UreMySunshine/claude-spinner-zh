@@ -8,8 +8,8 @@ import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const SCRIPT = resolve(HERE, "..", "plugins", "spinner-zh", "scripts", "spinner-zh.mjs");
-const PHRASES = resolve(HERE, "..", "plugins", "spinner-zh", "phrases");
+const SCRIPT = resolve(HERE, "..", "plugins", "spinner-zh-verbs", "scripts", "spinner-zh-verbs.mjs");
+const PHRASES = resolve(HERE, "..", "plugins", "spinner-zh-verbs", "phrases");
 
 let passed = 0;
 const failures = [];
@@ -371,7 +371,7 @@ test("状态目录默认位于设置文件同目录", () => withRoot((root) => {
   const env = { ...process.env, SPINNER_ZH_SETTINGS: join(root, "settings.json") };
   delete env.SPINNER_ZH_STATE_DIR;
   execFileSync(process.execPath, [SCRIPT, "enable", "ads"], { env, encoding: "utf8" });
-  assert(existsSync(join(root, "spinner-zh", "backup.json")), "默认备份位置不在设置文件同目录");
+  assert(existsSync(join(root, "spinner-zh-verbs", "backup.json")), "默认备份位置不在设置文件同目录");
 }));
 
 test("不残留临时文件", () => withRoot((root) => {

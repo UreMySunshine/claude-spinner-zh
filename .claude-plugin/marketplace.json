@@ -1,18 +1,18 @@
 {
   "name": "spinner-zh-marketplace",
-  "description": "把中文等待文案接进 Claude Code：原生 spinnerVerbs 版与彩色轮播 mods 版。",
+  "description": "把中文等待文案接进 Claude Code：彩色轮播 mods 版与原生 spinnerVerbs 版。",
   "owner": {
     "name": "Kira"
   },
   "plugins": [
     {
-      "name": "spinner-zh-mods",
-      "source": "./plugins/spinner-zh-mods",
-      "description": "彩色流动的中文轮播等待文案，逐字符着色、每 4 秒换句，保留原有等待动画。"
-    },
-    {
       "name": "spinner-zh",
       "source": "./plugins/spinner-zh",
+      "description": "彩色流动的中文轮播等待文案，逐段着色、每 4 秒换句，保留原有等待动画。"
+    },
+    {
+      "name": "spinner-zh-verbs",
+      "source": "./plugins/spinner-zh-verbs",
       "description": "分类中文等待文案，仅使用原生 spinnerVerbs 配置，不修改二进制、不注入终端。"
     }
   ]

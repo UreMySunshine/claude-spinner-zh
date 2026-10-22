@@ -1,0 +1,15 @@
+{
+  "name": "spinner-zh-verbs",
+  "version": "0.2.0",
+  "description": "把 Claude Code 等待中的 spinner 文案换成分类中文文案，只使用原生 spinnerVerbs 配置。",
+  "author": {
+    "name": "Kira"
+  },
+  "license": "MIT",
+  "keywords": [
+    "spinner",
+    "spinnerVerbs",
+    "chinese",
+    "settings"
+  ]
+}

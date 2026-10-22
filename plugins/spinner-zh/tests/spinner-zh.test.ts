@@ -3,7 +3,7 @@ import { colorAt, hueToHex, phraseAt, segmentsOf, truncateToWidth, displayWidth,
 import { CATEGORIES, ALL_PHRASES } from '../hooks/phrases.js'
 
 const SPINNER = {
-  plugin: 'spinner-zh-mods',
+  plugin: 'spinner-zh',
   component: 'Spinner',
   requestId: 'main',
   surface: 'terminal',
@@ -12,7 +12,7 @@ const SPINNER = {
 }
 
 const PANE = {
-  plugin: 'spinner-zh-mods',
+  plugin: 'spinner-zh',
   component: 'Pane',
   requestId: 'spinner-zh-config',
   surface: 'terminal',

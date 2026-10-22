@@ -1,29 +1,29 @@
-# spinner-zh
+# 中文等待文案插件（Claude Code）
 
 把 Claude Code 等待时的 spinner 换成分类中文文案。仓库提供两个插件，按需要选一个：
 
 | 插件 | 机制 | 轮播 | 彩色流动 |
 | --- | --- | --- | --- |
-| [`spinner-zh-mods`](plugins/spinner-zh-mods/README.md) | mods，在渲染时重绘 spinner | 支持，同一轮等待中每 4 秒换一句 | 支持，按段着色并随时间流动，明暗两套配色 |
-| `spinner-zh` | 原生 `spinnerVerbs` 设置项 | 不支持单轮内切换 | 不支持 |
+| [`spinner-zh`](plugins/spinner-zh/README.md) | mods，在渲染时重绘 spinner | 支持，同一轮等待中每 4 秒换一句 | 支持，按段着色并随时间流动，明暗两套配色 |
+| `spinner-zh-verbs` | 原生 `spinnerVerbs` 设置项 | 不支持单轮内切换 | 不支持 |
 
 两者都不修改二进制、不注入终端、不启动常驻进程、不联网、不调用模型。
 
 ## 安装
 
 ```bash
-claude plugin marketplace add UreMySunshine/claude-spinner-zh
+claude plugin marketplace add UreMySunshine/spinner-zh
 
 # 彩色轮播版（推荐）
-claude plugin install spinner-zh-mods@spinner-zh-marketplace
+claude plugin install spinner-zh-verbs@spinner-zh-marketplace
 
 # 或：原生 spinnerVerbs 版
-claude plugin install spinner-zh@spinner-zh-marketplace
+claude plugin install spinner-zh-verbs@spinner-zh-marketplace
 ```
 
-`spinner-zh-mods` 需要 Claude Code v2.1.287 或更高版本。装好后重启，或在会话里执行 `/reload-plugins`。
+`spinner-zh` 需要 Claude Code v2.1.287 或更高版本。装好后重启，或在会话里执行 `/reload-plugins`。
 
-以下各节说明 `spinner-zh`（原生 `spinnerVerbs` 版）的实现细节；`spinner-zh-mods` 的说明在 [`plugins/spinner-zh-mods/README.md`](plugins/spinner-zh-mods/README.md)。
+以下各节说明 `spinner-zh`（原生 `spinnerVerbs` 版）的实现细节；`spinner-zh` 的说明在 [`plugins/spinner-zh/README.md`](plugins/spinner-zh/README.md)。
 
 ## 1. 它做的事
 
@@ -77,24 +77,24 @@ claude plugin install spinner-zh@spinner-zh-marketplace
 从 GitHub 安装（仓库根目录即 marketplace 根目录）：
 
 ```bash
-claude plugin marketplace add UreMySunshine/claude-spinner-zh
-claude plugin install spinner-zh@spinner-zh-marketplace
+claude plugin marketplace add UreMySunshine/spinner-zh
+claude plugin install spinner-zh-verbs@spinner-zh-marketplace
 ```
 
 从本地克隆安装（`<路径>` 指向克隆后的仓库根目录）：
 
 ```bash
 claude plugin marketplace add <路径>/spinner-zh
-claude plugin install spinner-zh@spinner-zh-marketplace
+claude plugin install spinner-zh-verbs@spinner-zh-marketplace
 ```
 
-安装只把插件与 marketplace 登记到 Claude Code 自己的插件配置（`settings.json` 的 `extraKnownMarketplaces` 与 `enabledPlugins`），**不会写入 `spinnerVerbs`**；等待文案仍要主动执行 `/spinner-zh:enable` 才会变化。安装后启动新的 Claude Code 会话，或在已有会话执行 `/reload-plugins` 使命令生效。
+安装只把插件与 marketplace 登记到 Claude Code 自己的插件配置（`settings.json` 的 `extraKnownMarketplaces` 与 `enabledPlugins`），**不会写入 `spinnerVerbs`**；等待文案仍要主动执行 `/spinner-zh-verbs:enable` 才会变化。安装后启动新的 Claude Code 会话，或在已有会话执行 `/reload-plugins` 使命令生效。
 
 确认安装：
 
 ```bash
 claude plugin list
-claude plugin details spinner-zh
+claude plugin details spinner-zh-verbs
 ```
 
 `details` 的组件清单应为 `Skills (4) category, enable, restore, status`。
@@ -107,31 +107,31 @@ claude plugin details spinner-zh
 
 | 命令 | 作用 |
 | --- | --- |
-| `/spinner-zh:enable <分类>` | 启用：首次启用先把原值写入备份，再写 `spinnerVerbs` |
-| `/spinner-zh:category <分类>` | 切换分类；未启用时拒绝执行 |
-| `/spinner-zh:status` | 查看启用状态、分类、条数、备份内容和一致性检查 |
-| `/spinner-zh:restore` | 只把 `spinnerVerbs` 恢复为启用前原值 |
+| `/spinner-zh-verbs:enable <分类>` | 启用：首次启用先把原值写入备份，再写 `spinnerVerbs` |
+| `/spinner-zh-verbs:category <分类>` | 切换分类；未启用时拒绝执行 |
+| `/spinner-zh-verbs:status` | 查看启用状态、分类、条数、备份内容和一致性检查 |
+| `/spinner-zh-verbs:restore` | 只把 `spinnerVerbs` 恢复为启用前原值 |
 
 分类参数用第 3 节的分类 ID，另可用 `all`。列出分类也可以直接运行脚本：
 
 ```bash
-node <路径>/spinner-zh/plugins/spinner-zh/scripts/spinner-zh.mjs list
+node <路径>/spinner-zh/plugins/spinner-zh-verbs/scripts/spinner-zh-verbs.mjs list
 ```
 
 典型流程：
 
 ```text
-/spinner-zh:enable coding
-/spinner-zh:status
-/spinner-zh:category daily
-/spinner-zh:restore
+/spinner-zh-verbs:enable coding
+/spinner-zh-verbs:status
+/spinner-zh-verbs:category daily
+/spinner-zh-verbs:restore
 ```
 
 ### 冲突处理
 
 以下两种情况插件不会覆盖，而是报告冲突并保持文件不变：
 
-1. `settings.json` 里已有 `spinnerVerbs`（例如由其他插件或手工设置），而本插件从未启用过。确认可以覆盖后，用 `/spinner-zh:enable <分类> --adopt`：当前值会被记为「启用前原值」，之后 `restore` 会还原到它。
+1. `settings.json` 里已有 `spinnerVerbs`（例如由其他插件或手工设置），而本插件从未启用过。确认可以覆盖后，用 `/spinner-zh-verbs:enable <分类> --adopt`：当前值会被记为「启用前原值」，之后 `restore` 会还原到它。
 2. 启用后 `spinnerVerbs` 被外部改动，与插件记录不一致。`category`、`enable` 会拒绝；`restore` 需显式加 `--force`。
 
 备份文件与状态文件位于 `spinner-zh/` 目录（默认在 `settings.json` 同级的 `spinner-zh/` 子目录）：
@@ -144,7 +144,7 @@ node <路径>/spinner-zh/plugins/spinner-zh/scripts/spinner-zh.mjs list
 **停用（保留插件、恢复原配置）**：
 
 ```text
-/spinner-zh:restore
+/spinner-zh-verbs:restore
 ```
 
 只还原 `spinnerVerbs`；你在启用期间对 `settings.json` 其他字段的修改都保留。
@@ -152,27 +152,27 @@ node <路径>/spinner-zh/plugins/spinner-zh/scripts/spinner-zh.mjs list
 **卸载插件**（不自动还原配置，需要先 restore）：
 
 ```bash
-claude plugin uninstall spinner-zh@spinner-zh-marketplace
+claude plugin uninstall spinner-zh-verbs@spinner-zh-marketplace
 claude plugin marketplace remove spinner-zh-marketplace
 ```
 
-插件本身不改动设置，卸载插件不会移除已写入的 `spinnerVerbs`，所以先执行 `/spinner-zh:restore` 再卸载。备份与状态文件不会自动删除；确认不再需要时可手工删除设置文件同级的 `spinner-zh/` 目录。
+插件本身不改动设置，卸载插件不会移除已写入的 `spinnerVerbs`，所以先执行 `/spinner-zh-verbs:restore` 再卸载。备份与状态文件不会自动删除；确认不再需要时可手工删除设置文件同级的 `spinner-zh/` 目录。
 
 ## 7. 来源与许可
 
-- 中文文案来自 [01Virex/dsh-status-rotator](https://github.com/01Virex/dsh-status-rotator)（MIT License，Copyright (c) 2026 01Virex），来源提交 `bf980a6`，上游许可证副本见 `plugins/spinner-zh/LICENSE-UPSTREAM-MIT`。
-- 改动范围见 `plugins/spinner-zh/NOTICE.md`。
-- 本插件代码以 MIT 发布，见 `plugins/spinner-zh/LICENSE`。
+- 中文文案来自 [01Virex/dsh-status-rotator](https://github.com/01Virex/dsh-status-rotator)（MIT License，Copyright (c) 2026 01Virex），来源提交 `bf980a6`，上游许可证副本见 `plugins/spinner-zh-verbs/LICENSE-UPSTREAM-MIT`。
+- 改动范围见 `plugins/spinner-zh-verbs/NOTICE.md`。
+- 本插件代码以 MIT 发布，见 `plugins/spinner-zh-verbs/LICENSE`。
 
 ## 8. 目录结构
 
 ```text
 spinner-zh/
 ├── .claude-plugin/marketplace.json        # 本地 marketplace 清单
-├── plugins/spinner-zh/
+├── plugins/spinner-zh-verbs/
 │   ├── .claude-plugin/plugin.json         # 插件清单
 │   ├── skills/{enable,category,status,restore}/SKILL.md
-│   ├── scripts/spinner-zh.mjs             # 配置读写脚本
+│   ├── scripts/spinner-zh-verbs.mjs             # 配置读写脚本
 │   ├── phrases/                           # 分类文案与索引
 │   ├── README.md  LICENSE  LICENSE-UPSTREAM-MIT  NOTICE.md
 ├── tools/build-phrases.mjs                # 从上游生成文案资源

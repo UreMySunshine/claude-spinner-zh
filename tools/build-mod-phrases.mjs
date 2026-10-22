@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 从 plugins/spinner-zh/phrases 生成 mod 可直接 import 的文案模块。
+// 从 plugins/spinner-zh-verbs/phrases 生成 mod 可直接 import 的文案模块。
 // mod 的 hooks 模块没有文件系统访问能力，文案必须以 JS 模块形式随插件发布。
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
@@ -7,13 +7,13 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "..");
-const SRC = join(REPO, "plugins", "spinner-zh", "phrases");
-const OUT = join(REPO, "plugins", "spinner-zh-mods", "hooks", "phrases.js");
+const SRC = join(REPO, "plugins", "spinner-zh-verbs", "phrases");
+const OUT = join(REPO, "plugins", "spinner-zh", "hooks", "phrases.js");
 
 const index = JSON.parse(readFileSync(join(SRC, "index.json"), "utf8"));
 const lines = [];
 
-lines.push("// 由 tools/build-mod-phrases.mjs 从 plugins/spinner-zh/phrases 生成，请勿手工编辑。");
+lines.push("// 由 tools/build-mod-phrases.mjs 从 plugins/spinner-zh-verbs/phrases 生成，请勿手工编辑。");
 lines.push(`// 文案来源：${index.source.repository}（${index.source.license}），提交 ${index.source.commit}`);
 lines.push("");
 lines.push("export const CATEGORIES = [");

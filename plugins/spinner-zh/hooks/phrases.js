@@ -1,4 +1,4 @@
-// 由 tools/build-mod-phrases.mjs 从 plugins/spinner-zh/phrases 生成，请勿手工编辑。
+// 由 tools/build-mod-phrases.mjs 从 plugins/spinner-zh-verbs/phrases 生成，请勿手工编辑。
 // 文案来源：https://github.com/01Virex/dsh-status-rotator（MIT），提交 bf980a6d6c9dd1fce87cb9b1611cf5d42f5c10e1
 
 export const CATEGORIES = [

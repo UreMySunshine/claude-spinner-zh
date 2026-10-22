@@ -30,8 +30,8 @@ node tests/run-tests.mjs
 ### 2. 插件清单校验
 
 ```bash
-claude plugin validate --strict ./plugins/spinner-zh     # ✔ Validation passed
-claude plugin validate --strict ./plugins/spinner-zh/skills  # ✔ Validation passed
+claude plugin validate --strict ./plugins/spinner-zh-verbs     # ✔ Validation passed
+claude plugin validate --strict ./plugins/spinner-zh-verbs/skills  # ✔ Validation passed
 claude plugin validate .                                  # marketplace：✔ Validation passed
 ```
 
@@ -43,17 +43,17 @@ claude plugin validate .                                  # marketplace：✔ Va
 
 ```bash
 claude plugin marketplace add ./spinner-zh
-claude plugin install spinner-zh@spinner-zh-marketplace
+claude plugin install spinner-zh-verbs@spinner-zh-marketplace
 claude plugin list
-claude plugin details spinner-zh
-claude plugin uninstall spinner-zh@spinner-zh-marketplace
+claude plugin details spinner-zh-verbs
+claude plugin uninstall spinner-zh-verbs@spinner-zh-marketplace
 claude plugin marketplace remove spinner-zh-marketplace
 ```
 
 实际结果：
 
-- 安装输出 `✔ Successfully installed plugin: spinner-zh@spinner-zh-marketplace (scope: user)`。
-- `claude plugin details spinner-zh` 的组件清单为 `Skills (4)  category, enable, restore, status`，外加常驻约 83 token 的估算。
+- 安装输出 `✔ Successfully installed plugin: spinner-zh-verbs@spinner-zh-marketplace (scope: user)`。
+- `claude plugin details spinner-zh-verbs` 的组件清单为 `Skills (4)  category, enable, restore, status`，外加常驻约 83 token 的估算。
 - 安装后 `settings.json` 中只出现 `extraKnownMarketplaces` 与 `enabledPlugins` 两个键，没有 `spinnerVerbs`，即安装本身不改写等待文案配置。
 - 卸载与移除 marketplace 均成功，临时目录删除后无残留。
 
@@ -62,10 +62,10 @@ claude plugin marketplace remove spinner-zh-marketplace
 以 `CLAUDE_PLUGIN_ROOT` 指向插件目录、`SPINNER_ZH_SETTINGS` 指向临时设置文件的方式，直接运行技能里写明的命令：
 
 ```bash
-"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh.mjs" enable daily
-"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh.mjs" status
-"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh.mjs" category coding
-"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh.mjs" restore
+"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh-verbs.mjs" enable daily
+"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh-verbs.mjs" status
+"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh-verbs.mjs" category coding
+"$CLAUDE_PLUGIN_ROOT/scripts/spinner-zh-verbs.mjs" restore
 ```
 
 `enable`、`status`、`category`、`restore` 输出符合预期，`restore` 后设置文件恢复到启用前的两个键，未残留 `spinnerVerbs`。
@@ -74,7 +74,7 @@ claude plugin marketplace remove spinner-zh-marketplace
 
 以下项目**没有**在真实登录的 Claude Code 会话里跑通，只完成了静态校验与脚本级验证：
 
-1. **斜杠命令的实际调用**：`claude -p "/spinner-zh:enable daily"` 在隔离 HOME 下返回 `Not logged in · Please run /login`，无法在未登录状态下完成一次真实会话内的命令执行。因此「技能被正确加载并按 SKILL.md 指示执行脚本」这一点，依据的是 `claude plugin details` 的 `Skills (4)` 清单、`claude plugin validate --strict` 的校验结果，以及上面第 4 项直接执行同一命令行文本的结果；未观察真实会话中的模型调用过程。
+1. **斜杠命令的实际调用**：`claude -p "/spinner-zh-verbs:enable daily"` 在隔离 HOME 下返回 `Not logged in · Please run /login`，无法在未登录状态下完成一次真实会话内的命令执行。因此「技能被正确加载并按 SKILL.md 指示执行脚本」这一点，依据的是 `claude plugin details` 的 `Skills (4)` 清单、`claude plugin validate --strict` 的校验结果，以及上面第 4 项直接执行同一命令行文本的结果；未观察真实会话中的模型调用过程。
 2. **等待文案的界面效果**：未在真实终端里观察 spinner 是否显示中文文案、是否每轮换一句。相关描述来自对本机 2.1.306 二进制的只读分析：`spinnerVerbs` 在取词处被读取，取词为随机一条，没有为 spinner 动词设置定时器，渲染时对已以 `…`/`...` 结尾的文案不再追加省略号。
 3. **`allowed-tools` 免确认**：未验证 `${CLAUDE_PLUGIN_ROOT}` 替换后的规则是否确实免去一次权限询问。
 
@@ -106,12 +106,12 @@ claude plugin marketplace remove spinner-zh-marketplace
 
 本轮核查使用 `firecrawl` CLI（`firecrawl search`、`firecrawl scrape`）获取官方文档与源码。先前一次 `web_search` 调用因 60 秒上限超时被中止，随后一次虽返回结果但只有来源链接、没有正文，无法支撑结论，因此未采用其内容。
 
-## 五、spinner-zh-mods（彩色轮播版）
+## 五、spinner-zh（彩色轮播版）
 
 运行方式：
 
 ```bash
-cd plugins/spinner-zh-mods
+cd plugins/spinner-zh
 claude plugin test
 ```
 
@@ -127,7 +127,7 @@ claude plugin test
 | 持久化 | 分类与启用状态写入 store；下次启动恢复；状态命令在存在 `spinnerVerbs` 时给出提示 |
 | 定时器 | 会话结束取消；空闲期不请求重绘；等待期按帧请求重绘；等待结束后停止 |
 
-`claude plugin validate --strict` 对 `plugins/spinner-zh-mods` 与 marketplace 均返回 `✔ Validation passed`；校验器识别到 10 个钩子（`session.start`、`turn.start`、`turn.complete`、`session.end`、`ui.render{component=Spinner}`、5 个 `command.run`），并列出 8 个 mods API 调用。
+`claude plugin validate --strict` 对 `plugins/spinner-zh` 与 marketplace 均返回 `✔ Validation passed`；校验器识别到 10 个钩子（`session.start`、`turn.start`、`turn.complete`、`session.end`、`ui.render{component=Spinner}`、5 个 `command.run`），并列出 8 个 mods API 调用。
 
 ### 未做真实会话验证的部分
 
@@ -138,7 +138,7 @@ claude plugin test
 3. **重绘节流的实际表现**：帧间隔取 100ms 是按文档的通用上限（每秒 10 次）设定的；终端对可见区域的上限是每秒 30 次，但实际帧率未测。
 4. **`/reload-plugins` 后的热加载行为**：未验证。
 
-## 六、spinner-zh-mods 改为单命令与多选面板后的测试
+## 六、spinner-zh 改为单命令与多选面板后的测试
 
 `claude plugin test` 现为 **21 项全部通过**。
 

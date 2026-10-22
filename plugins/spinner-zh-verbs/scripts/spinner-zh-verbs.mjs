@@ -68,7 +68,7 @@ function stateDirOf(flagPath, settingsPath) {
   if (flagPath) return resolve(flagPath);
   const override = process.env.SPINNER_ZH_STATE_DIR;
   if (override && override.trim() !== "") return resolve(override);
-  return join(dirname(settingsPath), "spinner-zh");
+  return join(dirname(settingsPath), "spinner-zh-verbs");
 }
 
 // 符号链接指向真实文件时写入目标，避免替换掉链接本身。

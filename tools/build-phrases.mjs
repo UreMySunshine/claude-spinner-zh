@@ -17,7 +17,7 @@ if (!args.includes("--source")) {
   console.error("用法：node tools/build-phrases.mjs --source <上游 config.example.json> [--out <目录>]");
   process.exit(2);
 }
-const outDir = resolve(argOf("--out", "plugins/spinner-zh/phrases"));
+const outDir = resolve(argOf("--out", "plugins/spinner-zh-verbs/phrases"));
 const sourceText = readFileSync(sourcePath, "utf8");
 const sourceSha = createHash("sha256").update(sourceText).digest("hex");
 const doc = JSON.parse(sourceText);
