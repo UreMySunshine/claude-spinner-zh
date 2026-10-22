@@ -1,0 +1,14 @@
+{
+  "name": "spinner-zh-marketplace",
+  "description": "本地市场：把中文等待文案写入 Claude Code 原生 spinnerVerbs。",
+  "owner": {
+    "name": "Kira"
+  },
+  "plugins": [
+    {
+      "name": "spinner-zh",
+      "source": "./plugins/spinner-zh",
+      "description": "分类中文等待文案，仅使用原生 spinnerVerbs 配置，不修改二进制、不注入终端。"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "note": "含占位符或非字符串、未写入 spinnerVerbs 的条目",
+  "items": [
+    {
+      "category": "reverse-proxy",
+      "phase": "long",
+      "text": "反代已持续 {elapsed}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "deepseek",
+      "phase": "running",
+      "text": "正在蒸馏 {model} 中…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "coding",
+      "phase": "running",
+      "text": "{model} 是好模型吗…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "sysadmin",
+      "phase": "running",
+      "text": "正在自动上传 {provider} 密钥…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "sysadmin",
+      "phase": "running",
+      "text": "已掉线 {elapsed}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "sysadmin",
+      "phase": "running",
+      "text": "已挂机 {elapsed}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "sysadmin",
+      "phase": "running",
+      "text": "正在排队 {elapsed}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "sysadmin",
+      "phase": "running",
+      "text": "正在重连 {elapsed}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "sysadmin",
+      "phase": "running",
+      "text": "正在维护 {elapsed}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "math-physics",
+      "phase": "running",
+      "text": "正在把 {tps} 换算成瓦特…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "math-physics",
+      "phase": "running",
+      "text": "正在测量 {elapsed} 的熵增…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "slacking",
+      "phase": "thinking",
+      "text": "正在用 {tps} tok/s 的速度认真摸鱼…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "daily",
+      "phase": "running",
+      "text": "正在不紧不慢，不快不慢地{phaseLabel}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "daily",
+      "phase": "long",
+      "text": "{model}吃了自己制作的裁决之时，晕过去了{time}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "community",
+      "phase": "thinking",
+      "text": "正在试图进攻{provider}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "community",
+      "phase": "running",
+      "text": "正在试图进攻{provider}…",
+      "reason": "placeholder"
+    },
+    {
+      "category": "community",
+      "phase": "long",
+      "text": "正在试图进攻{provider}…",
+      "reason": "placeholder"
+    }
+  ]
+}

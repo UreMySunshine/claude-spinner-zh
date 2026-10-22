@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "attribution": "中文文案来自 https://github.com/01Virex/dsh-status-rotator（MIT License，见 LICENSE-UPSTREAM-MIT）。已按分类拆分，未改动文案内容。",
+  "source": {
+    "repository": "https://github.com/01Virex/dsh-status-rotator",
+    "file": "config.example.json",
+    "commit": "bf980a6d6c9dd1fce87cb9b1611cf5d42f5c10e1",
+    "sha256": "4b1a07dd00071103f0c0bf4418494f7e2ef2b37f96d8b19db2f7c14151807af6",
+    "license": "MIT"
+  },
+  "totals": {
+    "raw": 746,
+    "usable": 689,
+    "excluded": 17
+  },
+  "categories": [
+    {
+      "id": "reverse-proxy",
+      "label": {
+        "zh": "反代",
+        "en": "Reverse proxy"
+      },
+      "count": 18,
+      "raw": 19,
+      "skipped": 1,
+      "duplicates": 0,
+      "file": "reverse-proxy.json"
+    },
+    {
+      "id": "deepseek",
+      "label": {
+        "zh": "DeepSeek 专场",
+        "en": "DeepSeek"
+      },
+      "count": 104,
+      "raw": 107,
+      "skipped": 1,
+      "duplicates": 2,
+      "file": "deepseek.json"
+    },
+    {
+      "id": "western-ai",
+      "label": {
+        "zh": "西方 AI 圈",
+        "en": "Western AI"
+      },
+      "count": 20,
+      "raw": 20,
+      "skipped": 0,
+      "duplicates": 0,
+      "file": "western-ai.json"
+    },
+    {
+      "id": "china-ai",
+      "label": {
+        "zh": "中国 AI 圈",
+        "en": "Chinese AI"
+      },
+      "count": 22,
+      "raw": 22,
+      "skipped": 0,
+      "duplicates": 0,
+      "file": "china-ai.json"
+    },
+    {
+      "id": "coding",
+      "label": {
+        "zh": "写代码日常",
+        "en": "Coding"
+      },
+      "count": 86,
+      "raw": 87,
+      "skipped": 1,
+      "duplicates": 0,
+      "file": "coding.json"
+    },
+    {
+      "id": "sysadmin",
+      "label": {
+        "zh": "系统管理",
+        "en": "Sysadmin"
+      },
+      "count": 35,
+      "raw": 41,
+      "skipped": 6,
+      "duplicates": 0,
+      "file": "sysadmin.json"
+    },
+    {
+      "id": "math-physics",
+      "label": {
+        "zh": "数学与物理",
+        "en": "Math & physics"
+      },
+      "count": 33,
+      "raw": 35,
+      "skipped": 2,
+      "duplicates": 0,
+      "file": "math-physics.json"
+    },
+    {
+      "id": "slacking",
+      "label": {
+        "zh": "摸鱼",
+        "en": "Slacking"
+      },
+      "count": 39,
+      "raw": 40,
+      "skipped": 1,
+      "duplicates": 0,
+      "file": "slacking.json"
+    },
+    {
+      "id": "internet-memes",
+      "label": {
+        "zh": "网络梗",
+        "en": "Internet memes"
+      },
+      "count": 57,
+      "raw": 57,
+      "skipped": 0,
+      "duplicates": 0,
+      "file": "internet-memes.json"
+    },
+    {
+      "id": "daily",
+      "label": {
+        "zh": "日常",
+        "en": "Daily life"
+      },
+      "count": 75,
+      "raw": 77,
+      "skipped": 2,
+      "duplicates": 0,
+      "file": "daily.json"
+    },
+    {
+      "id": "community",
+      "label": {
+        "zh": "社区投稿",
+        "en": "Community"
+      },
+      "count": 25,
+      "raw": 66,
+      "skipped": 3,
+      "duplicates": 38,
+      "file": "community.json"
+    },
+    {
+      "id": "ads",
+      "label": {
+        "zh": "广告",
+        "en": "Ads"
+      },
+      "count": 3,
+      "raw": 3,
+      "skipped": 0,
+      "duplicates": 0,
+      "file": "ads.json"
+    },
+    {
+      "id": "star-ask",
+      "label": {
+        "zh": "求 star",
+        "en": "Star asks"
+      },
+      "count": 11,
+      "raw": 11,
+      "skipped": 0,
+      "duplicates": 0,
+      "file": "star-ask.json"
+    },
+    {
+      "id": "star-route",
+      "label": {
+        "zh": "星标者路由",
+        "en": "Stargazer routing"
+      },
+      "count": 161,
+      "raw": 161,
+      "skipped": 0,
+      "duplicates": 0,
+      "file": "star-route.json"
+    }
+  ],
+  "all": {
+    "id": "all",
+    "count": 689,
+    "file": "all.json"
+  }
+}
