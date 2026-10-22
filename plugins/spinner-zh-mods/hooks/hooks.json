@@ -1,0 +1,4 @@
+{
+  "description": "彩色流动中文轮播等待文案",
+  "modules": ["./register.js"]
+}

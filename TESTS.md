@@ -105,3 +105,35 @@ claude plugin marketplace remove spinner-zh-marketplace
 ### 本轮额外核实的检索方式说明
 
 本轮核查使用 `firecrawl` CLI（`firecrawl search`、`firecrawl scrape`）获取官方文档与源码。先前一次 `web_search` 调用因 60 秒上限超时被中止，随后一次虽返回结果但只有来源链接、没有正文，无法支撑结论，因此未采用其内容。
+
+## 五、spinner-zh-mods（彩色轮播版）
+
+运行方式：
+
+```bash
+cd plugins/spinner-zh-mods
+claude plugin test
+```
+
+结果：**18 项全部通过**，无需登录、不消耗额度。
+
+| 组 | 用例 |
+| --- | --- |
+| 轮播 | 每 4000 毫秒切换一条；按分类内顺序循环；越界与负值退回第一条；空列表返回空串 |
+| 彩流 | 同一位置颜色随时间改变；同帧内相邻字符颜色互不相同；色相 0–359 度均为合法六位十六进制；360 度等同 0 度；负角度取模 |
+| 分段 | 字符数不超上限时一段一字符；长文案按段合并且拼回原文；空输入返回空数组 |
+| 绘制 | 启用后彩色文案与引擎绘制同时出现；停用后不出现彩色文案；颜色为 `#rrggbb` |
+| 命令 | 五个命令全部注册；启用带分类参数；未知分类被拒；切换分类写回 store；不带参数列出分类；列表与状态输出内容 |
+| 持久化 | 分类与启用状态写入 store；下次启动恢复；状态命令在存在 `spinnerVerbs` 时给出提示 |
+| 定时器 | 会话结束取消；空闲期不请求重绘；等待期按帧请求重绘；等待结束后停止 |
+
+`claude plugin validate --strict` 对 `plugins/spinner-zh-mods` 与 marketplace 均返回 `✔ Validation passed`；校验器识别到 10 个钩子（`session.start`、`turn.start`、`turn.complete`、`session.end`、`ui.render{component=Spinner}`、5 个 `command.run`），并列出 8 个 mods API 调用。
+
+### 未做真实会话验证的部分
+
+以下项目没有在真实 Claude Code 会话里观察，依据的是 mods 测试工具链与静态校验：
+
+1. **终端中的实际观感**：颜色在深浅主题下的可读性、流动速度是否舒适、长文案在窄终端是否换行，均未在真实终端里看过。
+2. **与引擎 spinner 的并排布局**：测试只验证了树结构合法（彩色段与引擎段都在），未验证实际渲染后两者的间距与对齐。
+3. **重绘节流的实际表现**：帧间隔取 100ms 是按文档的通用上限（每秒 10 次）设定的；终端对可见区域的上限是每秒 30 次，但实际帧率未测。
+4. **`/reload-plugins` 后的热加载行为**：未验证。

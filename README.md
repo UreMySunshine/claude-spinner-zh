@@ -1,6 +1,29 @@
 # spinner-zh
 
-把 Claude Code 等待时显示的自定义文案换成分类中文文案。只使用 Claude Code 原生 `spinnerVerbs` 配置，不修改二进制、不注入终端、不启动常驻进程、不联网、不调用模型。
+把 Claude Code 等待时的 spinner 换成分类中文文案。仓库提供两个插件，按需要选一个：
+
+| 插件 | 机制 | 轮播 | 彩色流动 |
+| --- | --- | --- | --- |
+| [`spinner-zh-mods`](plugins/spinner-zh-mods/README.md) | mods，在渲染时重绘 spinner | 支持，同一轮等待中每 4 秒换一句 | 支持，按段着色并随时间流动 |
+| `spinner-zh` | 原生 `spinnerVerbs` 设置项 | 不支持单轮内切换 | 不支持 |
+
+两者都不修改二进制、不注入终端、不启动常驻进程、不联网、不调用模型。
+
+## 安装
+
+```bash
+claude plugin marketplace add UreMySunshine/spinner-zh
+
+# 彩色轮播版（推荐）
+claude plugin install spinner-zh-mods@spinner-zh-marketplace
+
+# 或：原生 spinnerVerbs 版
+claude plugin install spinner-zh@spinner-zh-marketplace
+```
+
+`spinner-zh-mods` 需要 Claude Code v2.1.287 或更高版本。装好后重启，或在会话里执行 `/reload-plugins`。
+
+以下各节说明 `spinner-zh`（原生 `spinnerVerbs` 版）的实现细节；`spinner-zh-mods` 的说明在 [`plugins/spinner-zh-mods/README.md`](plugins/spinner-zh-mods/README.md)。
 
 ## 1. 它做的事
 
