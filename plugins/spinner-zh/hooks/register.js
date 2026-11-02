@@ -6,7 +6,7 @@
 // - mods 没有原生的多选控件，分类开关用 Button 逐项切换实现；
 // - mods API 不暴露终端主题，背景深浅由用户在面板里指定。
 import { CATEGORIES, ALL_PHRASES } from './phrases.js'
-import { colorAt, pickPhrase, segmentsOf, truncateToWidth, ROTATION_MS, TICK_MS } from './gradient.js'
+import { colorAt, pickPhrase, segmentsOf, ROTATION_MS, TICK_MS } from './gradient.js'
 
 const PLACEHOLDER_WORD = '\u200b'
 const PANE_ID = 'spinner-zh-config'
@@ -137,18 +137,14 @@ export function register(on) {
     }
     const phrase = lastPhrase
 
-    const viewportColumns = e.viewport && Number.isFinite(e.viewport.columns) ? e.viewport.columns : 0
-    const budget = viewportColumns > 0 ? Math.max(8, viewportColumns - 4) : 60
-    const shown = truncateToWidth(phrase, budget)
-
-    const segments = segmentsOf(Array.from(shown))
+    const segments = segmentsOf(Array.from(phrase))
     const spans = segments.map((segment, index) =>
       Text({ color: colorAt(index, segments.length, now, lightBackground), children: [segment.text] }),
     )
-    // 各段作为同一个 Text 的行内子元素整体测宽；拆成 row 的独立子节点时，中文会在行宽不足时被逐字挤到下一行。
-    // 引擎的 spinner 上方自带一行空白，marginTop 让文案与其内容行对齐。
-    const phraseText = Box({ flexShrink: 0, marginTop: 1, children: [Text({ wrap: 'truncate-end', children: spans })] })
-    return Box({ flexDirection: 'row', children: [phraseText, Text({ children: [' '] }), engine] })
+    // 文案单独占一行并按行宽自动换行，原生 spinner 与任务列表固定在其下方，不随文案长短左右移动。
+    // 各段作为同一个 Text 的行内子元素整体测宽，换行按整句进行。
+    const phraseText = Box({ marginTop: 1, children: [Text({ wrap: 'wrap', children: spans })] })
+    return Box({ flexDirection: 'column', children: [phraseText, engine] })
   })
 
   on('ui.render', { component: 'Pane' }, async ($, e, next) => {
